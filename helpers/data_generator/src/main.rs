@@ -1,29 +1,22 @@
 use std::fs::write;
 
-use data_types::Point;
-use rand::random_range;
+use data_types::{Point, PointRange, Points};
 use ron::to_string;
 
-fn generate_points(capacity: u128, range: (u128, u128)) -> Vec<Point> {
-    if !(range.0 < range.1) {
+fn generate_points(capacity: u32, range: PointRange) -> Points {
+    if !(range.min < range.max) {
         panic!("MIN range must be less than MAX range.")
     }
 
-    let actual_capacity = (range.1 - range.0).pow(2);
-
-    if capacity > actual_capacity {
-        panic!("Capacity must be in range of possible combinations based on provided range.")
-    }
-
-    let mut points: Vec<Point> = vec![];
+    let mut points: Points = vec![];
 
     while points.len() < capacity as usize {
-        let x = random_range((range.0 as u128)..(range.1 as u128));
-        let y = random_range((range.0 as u128)..(range.1 as u128));
+        let new_point = Point::generate_random(&range);
 
-        let new_point = Point { x, y };
-
-        if !points.iter().any(|point| point.x == x && point.y == y) {
+        // Check if the new point already exists or not. If not then insert new point.
+        if !points.iter().any(|existing_point| {
+            existing_point.x == new_point.x && existing_point.y == new_point.y
+        }) {
             points.push(new_point);
         }
     }
@@ -35,14 +28,10 @@ fn main() {
     let capacity = std::env::args()
         .nth(1)
         .expect("Please provide capacity as the first argument")
-        .parse::<u128>()
+        .parse::<u32>()
         .expect("Capacity must be a number");
 
-    let min_range = 0;
-
-    let max_range = capacity.pow(2);
-
-    let points = generate_points(capacity, (min_range, max_range));
+    let points = generate_points(capacity, PointRange::new_from_capacity(capacity));
 
     let ron_string = to_string(&points).expect("Failed to serialize points to RON");
 

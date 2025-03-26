@@ -1,16 +1,9 @@
-use std::time::Instant;
+use data_types::{PairOfPoints, Points};
 
-use data_types::{AlgorithmOutput, Point};
-
-pub fn closest_pair(points: &Vec<Point>) -> AlgorithmOutput {
+pub fn closest_pair(points: &Points) -> Option<PairOfPoints> {
     if points.len() < 2 {
-        return AlgorithmOutput {
-            closest_pair: None,
-            time_elapsed: 0,
-        };
+        return None;
     }
-
-    let start_time = Instant::now();
 
     let mut min_distance = f64::MAX;
     let mut closest_pair = None;
@@ -25,10 +18,5 @@ pub fn closest_pair(points: &Vec<Point>) -> AlgorithmOutput {
         }
     }
 
-    let stop_time = Instant::now();
-
-    AlgorithmOutput {
-        closest_pair,
-        time_elapsed: (stop_time - start_time).as_millis(),
-    }
+    closest_pair
 }

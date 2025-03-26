@@ -9,6 +9,7 @@ dependencies = [
  "brute_force",
  "data_types",
  "divide_and_conquer",
+ "measure_execution_time",
  "ron",
 ]
 
@@ -53,6 +54,7 @@ dependencies = [
 name = "data_types"
 version = "0.1.0"
 dependencies = [
+ "rand",
  "serde",
 ]
 
@@ -80,6 +82,13 @@ name = "libc"
 version = "0.2.171"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c19937216e9d3aa9956d9bb8dfc0b0c8beb6058fc4f7a4dc4d850edf86a237d6"
+
+[[package]]
+name = "measure_execution_time"
+version = "0.1.0"
+dependencies = [
+ "data_types",
+]
 
 [[package]]
 name = "ppv-lite86"
