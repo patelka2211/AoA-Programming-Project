@@ -54,10 +54,10 @@ pub struct PointRange {
 
 impl PointRange {
     pub fn new_from_capacity(capacity: u32) -> Self {
-        PointRange {
-            min: -(capacity as f64),
-            max: capacity as f64,
-        }
+        let mut max = capacity as f64 / 2.0;
+        max = max.ceil();
+
+        PointRange { min: -max, max }
     }
 
     pub fn to_native_range(&self) -> std::ops::Range<f64> {
