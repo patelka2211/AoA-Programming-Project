@@ -1,6 +1,9 @@
-use std::time::Instant;
+use std::time::{Duration, Instant};
 
-use data_types::TimeMeasuredOutput;
+pub struct TimeMeasuredOutput<T> {
+    pub duration: Duration,
+    pub output: T,
+}
 
 pub fn measure_execution_time<FunctionType, ArgsType, ReturnType>(
     function: FunctionType,

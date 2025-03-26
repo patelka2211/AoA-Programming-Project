@@ -1,4 +1,4 @@
-use std::fs::write;
+use std::{env::args, fs::{create_dir_all, write}, path::Path};
 
 use data_types::{Point, PointRange, Points};
 use ron::to_string;
@@ -25,7 +25,7 @@ fn generate_points(capacity: u32, range: PointRange) -> Points {
 }
 
 fn main() {
-    let capacity = std::env::args()
+    let capacity = args()
         .nth(1)
         .expect("Please provide capacity as the first argument")
         .parse::<u32>()
@@ -36,6 +36,11 @@ fn main() {
     let ron_string = to_string(&points).expect("Failed to serialize points to RON");
 
     let file_path = format!("test_data/{}_points.ron", capacity);
+
+    // Ensure the directory exists
+    if let Some(parent) = Path::new(&file_path).parent() {
+        create_dir_all(parent).expect("Failed to create directory");
+    }
 
     write(&file_path, ron_string).expect("Failed to write points to file");
 
