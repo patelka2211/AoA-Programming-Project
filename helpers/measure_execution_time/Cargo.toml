@@ -1,7 +1,0 @@
-[package]
-name = "measure_execution_time"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-data_types = { version = "0.1.0", path = "../data_types" }

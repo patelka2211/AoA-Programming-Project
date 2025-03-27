@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use rand::random_range;
 use serde::{Deserialize, Serialize};
 
@@ -66,3 +68,8 @@ impl PointRange {
 pub type Points = Vec<Point>;
 
 pub type PairOfPoints = (Point, Point);
+
+pub struct ClosestPairWithDuration {
+    pub duration: Duration,
+    pub closest_pair: Option<PairOfPoints>,
+}

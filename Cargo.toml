@@ -6,6 +6,5 @@ members = [
     "algorithms/divide_and_conquer",
     "helpers/data_generator",
     "helpers/data_types",
-    "helpers/measure_execution_time",
 ]
 exclude = []

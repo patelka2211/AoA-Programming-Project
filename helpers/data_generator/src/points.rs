@@ -1,0 +1,22 @@
+use data_types::{Point, PointRange, Points};
+
+pub fn generate_points(capacity: u32, range: PointRange) -> Points {
+    if !(range.min < range.max) {
+        panic!("MIN range must be less than MAX range.")
+    }
+
+    let mut points: Points = vec![];
+
+    while points.len() < capacity as usize {
+        let new_point = Point::generate_random(&range);
+
+        // Check if the new point already exists or not. If not then insert new point.
+        if !points.iter().any(|existing_point| {
+            existing_point.x == new_point.x && existing_point.y == new_point.y
+        }) {
+            points.push(new_point);
+        }
+    }
+
+    points
+}
