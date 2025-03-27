@@ -1,15 +1,8 @@
-use std::time::Instant;
+use data_types::{PairOfPoints, Points};
 
-use data_types::{ClosestPairWithDuration, Points};
-
-pub fn closest_pair(points: &Points) -> ClosestPairWithDuration {
-    let start_time = Instant::now();
-
+pub fn closest_pair(points: &Points) -> Option<PairOfPoints> {
     if points.len() < 2 {
-        return ClosestPairWithDuration {
-            duration: start_time.elapsed(),
-            closest_pair: None,
-        };
+        return None;
     }
 
     let mut min_distance = f64::MAX;
@@ -25,8 +18,5 @@ pub fn closest_pair(points: &Points) -> ClosestPairWithDuration {
         }
     }
 
-    ClosestPairWithDuration {
-        duration: start_time.elapsed(),
-        closest_pair,
-    }
+    closest_pair
 }

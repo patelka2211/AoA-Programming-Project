@@ -31,3 +31,35 @@ time(msec), size(x10,000)
 
 Whole test took 1562 second(s) to complete.
 ```
+
+```
+Test: 2
+
+Algorithm: Divide and Conquer
+time(msec), size(x10,000)
+48, 1
+98, 2
+154, 3
+229, 4
+290, 5
+406, 6
+420, 7
+482, 8
+523, 9
+568, 10
+
+Algorithm: Brute force
+time(msec), size(x10,000)
+3942, 1
+15596, 2
+35028, 3
+61551, 4
+96829, 5
+140272, 6
+190288, 7
+248479, 8
+314249, 9
+387578, 10
+
+Whole test took 1511 second(s) to complete.
+```

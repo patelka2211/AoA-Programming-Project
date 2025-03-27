@@ -2,13 +2,13 @@ use data_types::{PairOfPoints, Points};
 
 use crate::{sort_by::sort_points_by_y, strip::closest_pair_in_strip};
 
-pub fn closest_pair_recursive(px: &Points, py: &Points) -> Option<PairOfPoints> {
-    let n = px.len();
+pub fn closest_pair_recursive(sorted_by_x: &Points, sorted_by_y: &Points) -> Option<PairOfPoints> {
+    let n = sorted_by_x.len();
 
     // BASE CASE
     // If there are less than 3 points then simply find the closest pair and return.
     if n <= 3 {
-        let (_, closest_pair_strip) = closest_pair_in_strip(py);
+        let (_, closest_pair_strip) = closest_pair_in_strip(sorted_by_y);
         return closest_pair_strip;
     }
 
@@ -16,46 +16,50 @@ pub fn closest_pair_recursive(px: &Points, py: &Points) -> Option<PairOfPoints> 
     let mid = n / 2;
 
     // Left half of the points sorted by x-coordinate
-    let qx = px[0..mid].to_vec();
+    let left_half_sorted_by_x = sorted_by_x[0..mid].to_vec();
     // Right half of the points sorted by x-coordinate
-    let rx = px[mid..n].to_vec();
+    let right_half_sorted_by_x = sorted_by_x[mid..n].to_vec();
 
     // Left half of the points sorted by y-coordinate
-    let qy = py[0..mid].to_vec();
+    let left_half_sorted_by_y = sorted_by_y[0..mid].to_vec();
     // Right half of the points sorted by y-coordinate
-    let ry = py[mid..n].to_vec();
+    let right_half_sorted_by_y = sorted_by_y[mid..n].to_vec();
 
     // Recursively find the closest pair in each half
-    let (q0, q1) = closest_pair_recursive(&qx, &qy).unwrap();
-    let (r0, r1) = closest_pair_recursive(&rx, &ry).unwrap();
+    let (q0, q1) = closest_pair_recursive(&left_half_sorted_by_x, &left_half_sorted_by_y).unwrap();
+    let (r0, r1) =
+        closest_pair_recursive(&right_half_sorted_by_x, &right_half_sorted_by_y).unwrap();
 
     // Determine the minimum distance from the two halves
-    let delta_left = q0.distance(&q1);
-    let delta_right = r0.distance(&r1);
+    let delta_left_half = q0.distance(&q1);
+    let delta_right_half = r0.distance(&r1);
 
-    let (delta_minimum, mut closest_pair) = if delta_left < delta_right {
-        (delta_left, Some((q0, q1)))
+    let (delta_minimum, closest_pair) = if delta_left_half < delta_right_half {
+        (delta_left_half, Some((q0, q1)))
     } else {
-        (delta_right, Some((r0, r1)))
+        (delta_right_half, Some((r0, r1)))
     };
 
-    let l = px[mid].x;
+    let max_x_coordinate_in_left_half = sorted_by_x[mid].x;
 
     // Create a strip of points closer than minimum delta to the midpoint
     let mut strip = Vec::new();
-    for p in px {
-        if ((p.x as i128 - l as i128).abs() as f64) < delta_minimum {
-            strip.push(p.clone());
+    for point in sorted_by_x {
+        if ((point.x as i128 - max_x_coordinate_in_left_half as i128).abs() as f64) < delta_minimum
+        {
+            strip.push(point.clone());
         }
     }
 
     // Sort the strip by y-coordinate
     let strip = sort_points_by_y(&strip);
 
-    let (min_distance_strip, closest_pair_strip) = closest_pair_in_strip(&strip);
+    let (min_distance_of_strip, closest_pair_of_strip) = closest_pair_in_strip(&strip);
 
-    if min_distance_strip < delta_minimum {
-        closest_pair = closest_pair_strip;
+    // Check if a closer pair exists in the strip than in either half.
+    // If so, return this pair as our solution.
+    if min_distance_of_strip < delta_minimum {
+        return closest_pair_of_strip;
     }
 
     closest_pair

@@ -1,6 +1,8 @@
 use data_types::{Point, PointRange, Points};
 
-pub fn generate_points(capacity: u32, range: PointRange) -> Points {
+pub fn generate_points(capacity: u32) -> Points {
+    let range = PointRange::new_from_capacity(capacity);
+
     if !(range.min < range.max) {
         panic!("MIN range must be less than MAX range.")
     }
