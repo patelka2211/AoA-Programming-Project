@@ -1,5 +1,21 @@
 use data_types::{PairOfPoints, Points};
 
+/// Finds the closest pair of points in a given set of points.
+///
+/// # Arguments
+///
+/// * `points` - A reference to a collection of points.
+///
+/// # Returns
+///
+/// * `Option<PairOfPoints>` - Some((point1, point2)) if there are at least two points,
+///   where point1 and point2 are the closest pair of points in the set.
+///   None if there are fewer than two points.
+///
+/// # Complexity
+///
+/// * Time complexity: O(n²) where n is the number of points.
+///   This implementation uses a brute force approach that compares all pairs of points.
 pub fn closest_pair(points: &Points) -> Option<PairOfPoints> {
     if points.len() < 2 {
         return None;

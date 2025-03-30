@@ -1,24 +1,8 @@
-use std::{
-    collections::HashMap,
-    fs::{read_to_string, write},
-    time::Instant,
-};
+use std::{collections::HashMap, time::Instant};
 
 use data_generator::generate_points;
 
-fn init_test_file() {
-    write("test_result.txt", "").expect("Failed to write to test_result.txt");
-}
-
-fn append_to_test_file(content: String) {
-    let existing_content = read_to_string("test_result.txt").unwrap_or_default();
-    let updated_content = existing_content + &content + "\n";
-    write("test_result.txt", updated_content).expect("Failed to write to test_result.txt");
-}
-
 fn main() {
-    init_test_file();
-
     let max_test_iterations = 10;
     let max_test_input_scale_factor = 10;
 
@@ -61,17 +45,17 @@ fn main() {
         );
     }
 
-    append_to_test_file(
-        "Input size (x10k), Average Running Time (Divide and Conquer), Average Running Time (Brute force)"
-            .to_string(),
-    );
+    println!("Input size (x10k), Average Running Time (Divide and Conquer), Average Running Time (Brute force)");
 
     for test_input in 1..(max_test_input_scale_factor + 1) {
-        append_to_test_file(format!(
-            "{}, {}, {}",
-            test_input,
-            time_map_for_divide_and_conquer.get(&test_input).unwrap(),
-            time_map_for_brute_force.get(&test_input).unwrap()
-        ));
+        println!(
+            "{}",
+            format!(
+                "{}, {}, {}",
+                test_input,
+                time_map_for_divide_and_conquer.get(&test_input).unwrap(),
+                time_map_for_brute_force.get(&test_input).unwrap()
+            )
+        );
     }
 }

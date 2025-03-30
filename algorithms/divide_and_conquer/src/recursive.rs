@@ -1,15 +1,35 @@
 use data_types::{PairOfPoints, Points};
 
-use crate::{sort_by::sort_points_by_y, strip::closest_pair_in_strip};
+use crate::{
+    closest_pair_in_strip::find_closest_pair_and_distance_in_strip, sort_by::sort_points_by_y,
+};
 
+/// Implements the divide-and-conquer algorithm to find the closest pair of points in a set.
+///
+/// # Arguments
+///
+/// * `sorted_by_x` - A vector of points sorted by their x-coordinates
+/// * `sorted_by_y` - A vector of the same points sorted by their y-coordinates
+///
+/// # Returns
+///
+/// * `Option<PairOfPoints>` - The closest pair of points if at least two points exist, None otherwise
+///
+/// # Time Complexity
+///
+/// O(n log n) where n is the number of points. The algorithm recursively divides the problem
+/// into halves and combines the results in linear time, following the recurrence relation:
+/// T(n) = 2T(n/2) + O(n), which resolves to O(n log n).
 pub fn closest_pair_recursive(sorted_by_x: &Points, sorted_by_y: &Points) -> Option<PairOfPoints> {
     let n = sorted_by_x.len();
 
     // BASE CASE
     // If there are less than 3 points then simply find the closest pair and return.
     if n <= 3 {
-        let (_, closest_pair_strip) = closest_pair_in_strip(sorted_by_y);
-        return closest_pair_strip;
+        if let Some((_, closest_pair_strip)) = find_closest_pair_and_distance_in_strip(sorted_by_y)
+        {
+            return Some(closest_pair_strip);
+        }
     }
 
     // Divide the points into two halves
@@ -54,12 +74,14 @@ pub fn closest_pair_recursive(sorted_by_x: &Points, sorted_by_y: &Points) -> Opt
     // Sort the strip by y-coordinate
     let strip = sort_points_by_y(&strip);
 
-    let (min_distance_of_strip, closest_pair_of_strip) = closest_pair_in_strip(&strip);
-
-    // Check if a closer pair exists in the strip than in either half.
-    // If so, return this pair as our solution.
-    if min_distance_of_strip < delta_minimum {
-        return closest_pair_of_strip;
+    if let Some((min_distance_of_strip, closest_pair_of_strip)) =
+        find_closest_pair_and_distance_in_strip(&strip)
+    {
+        // Check if a closer pair exists in the strip than in either half.
+        // If so, return this pair as our solution.
+        if min_distance_of_strip < delta_minimum {
+            return Some(closest_pair_of_strip);
+        }
     }
 
     closest_pair
