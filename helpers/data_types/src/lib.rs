@@ -1,9 +1,6 @@
-use std::ops::Range;
-
 use rand::random_range;
-use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct Point {
     pub x: f64,
     pub y: f64,
@@ -65,61 +62,30 @@ impl Point {
         (coordinate * power10).round() / power10
     }
 
-    /// Generates a random point within the specified range
+    /// Generates a random floating-point number between 0 and 10^6
     ///
-    /// # Arguments
+    /// # Returns
     ///
-    /// * `range` - A reference to a PointRange that defines the minimum and maximum values for coordinates
+    /// A random 64-bit floating point number within the range [0, 1,000,000)
+    fn generate_random_number() -> f64 {
+        let range = (0 as f64)..((10 as f64).powi(6));
+        random_range(range)
+    }
+
+    /// Generates a random point with coordinates between 0 and 10^6
     ///
     /// # Returns
     ///
     /// A new Point instance with randomly generated x and y coordinates, rounded to 2 decimal places
-    pub fn generate_random(range: &PointRange) -> Self {
-        let mut x = random_range(range.to_native_range());
-        let mut y = random_range(range.to_native_range());
+    pub fn generate_random() -> Self {
+        let mut x = Self::generate_random_number();
+        let mut y = Self::generate_random_number();
 
         // Round points to 2 decimal places.
         x = Self::round(x, 2);
         y = Self::round(y, 2);
 
         Point { x, y }
-    }
-}
-
-pub struct PointRange {
-    pub min: f64,
-    pub max: f64,
-}
-
-impl PointRange {
-    /// Creates a new PointRange centered at origin based on capacity
-    ///
-    /// # Arguments
-    ///
-    /// * `capacity` - A positive integer value that determines the range's extent
-    ///
-    /// # Returns
-    ///
-    /// A new PointRange with min and max values set symmetrically around zero,
-    /// where the max value is the ceiling of half the capacity, and min is its negative
-    pub fn new_from_capacity(capacity: u32) -> Self {
-        let mut max = capacity as f64 / 2.0;
-        max = max.ceil();
-
-        PointRange { min: -max, max }
-    }
-
-    /// Converts the PointRange to a standard Rust range
-    ///
-    /// # Arguments
-    ///
-    /// * `&self` - The reference to the current PointRange
-    ///
-    /// # Returns
-    ///
-    /// A Range<f64> representing the range from min to max
-    pub fn to_native_range(&self) -> Range<f64> {
-        self.min..self.max
     }
 }
 

@@ -15,7 +15,6 @@ use data_types::{Point, Points};
 /// # Complexity
 ///
 /// * Time Complexity: O(n log n), where n is the number of points.
-///
 pub fn merge_sort_points<F>(points: &Points, compare: &F) -> Points
 where
     F: Fn(&Point, &Point) -> bool,
@@ -47,7 +46,6 @@ where
 /// # Complexity
 ///
 /// * Time Complexity: O(n), where n is the total number of points in both arrays.
-///
 fn merge<F>(left: &Points, right: &Points, compare: &F) -> Points
 where
     F: Fn(&Point, &Point) -> bool,

@@ -14,7 +14,7 @@ use data_types::{PairOfPoints, Points};
 ///
 /// # Complexity
 ///
-/// * Time complexity: O(n²) where n is the number of points.
+/// * Time complexity: O(n^2) where n is the number of points.
 ///   This implementation uses a brute force approach that compares all pairs of points.
 pub fn closest_pair(points: &Points) -> Option<PairOfPoints> {
     if points.len() < 2 {

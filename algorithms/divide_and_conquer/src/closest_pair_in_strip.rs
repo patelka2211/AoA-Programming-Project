@@ -2,11 +2,7 @@ use std::cmp::min;
 
 use data_types::{PairOfPoints, Points};
 
-/// Finds the closest pair of points in a strip and calculates their distance.
-///
-/// This function is typically used in a divide-and-conquer algorithm for finding
-/// the closest pair of points. It takes a slice of points that are within a vertical strip
-/// and finds the pair with the minimum distance.
+/// Takes points that are within a vertical strip and finds the pair with the minimum distance.
 ///
 /// # Arguments
 ///
