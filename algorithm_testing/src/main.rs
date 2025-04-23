@@ -12,6 +12,7 @@ use prettytable::{row, Table};
 fn main() {
     let mut input = String::new();
 
+    // read the number of test iterations from command prompt
     print!("\nEnter the number of test iterations: ");
     Write::flush(&mut stdout()).expect("Failed to flush stdout");
     stdin().read_line(&mut input).expect("Failed to read line");
@@ -23,7 +24,8 @@ fn main() {
 
     input.clear();
 
-    print!("\nEnter the maximum number of test sizes (each size will be multiplied by 10k): ");
+    // read the number of test sizes from command prompt
+    print!("\nEnter the number of test sizes (each size will be multiplied by 10k): ");
     Write::flush(&mut stdout()).expect("Failed to flush stdout");
     stdin().read_line(&mut input).expect("Failed to read line");
 
@@ -44,29 +46,39 @@ fn main() {
 
             let points = generate_points(test_size * 10000);
 
+            // start time counter for divide and conquer algo
             let mut time_counter = Instant::now();
             finding_closest_pair_using_divide_and_conquer(&points);
+
+            // calculate time for divide and conquer algo
             let time_taken_by_divide_and_conquer = time_counter.elapsed().as_millis();
             println!("Time taken by Divide and Conquer: {time_taken_by_divide_and_conquer} ms.");
             total_time_taken_by_divide_and_conquer += time_taken_by_divide_and_conquer as u32;
 
+            // start time counter for brute force algo
             time_counter = Instant::now();
             finding_closest_pair_using_brute_force(&points);
+
+            // calculate time for brute force algo
             let time_taken_by_brute_force = time_counter.elapsed().as_millis();
             println!("Time taken by Brute force: {time_taken_by_brute_force} ms.");
             total_time_taken_by_brute_force += time_taken_by_brute_force as u32;
         }
 
+        // take the average time for divide and conquer algo
         time_map_for_divide_and_conquer.insert(
             test_size,
             total_time_taken_by_divide_and_conquer as f64 / max_test_iterations as f64,
         );
+
+        // take the average time for brute force algo
         time_map_for_brute_force.insert(
             test_size,
             total_time_taken_by_brute_force as f64 / max_test_iterations as f64,
         );
     }
 
+    // show the final output in table format
     let mut table = Table::new();
 
     table.add_row(row![
