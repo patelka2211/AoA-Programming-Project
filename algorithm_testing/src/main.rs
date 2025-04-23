@@ -17,7 +17,7 @@ fn main() {
     Write::flush(&mut stdout()).expect("Failed to flush stdout");
     stdin().read_line(&mut input).expect("Failed to read line");
 
-    let max_test_iterations = input
+    let total_test_iterations = input
         .trim()
         .parse::<u32>()
         .expect("Please enter a valid number");
@@ -29,7 +29,7 @@ fn main() {
     Write::flush(&mut stdout()).expect("Failed to flush stdout");
     stdin().read_line(&mut input).expect("Failed to read line");
 
-    let max_test_size = input
+    let total_test_size = input
         .trim()
         .parse::<u32>()
         .expect("Please enter a valid number");
@@ -37,11 +37,11 @@ fn main() {
     let mut time_map_for_divide_and_conquer: HashMap<u32, f64> = HashMap::new();
     let mut time_map_for_brute_force: HashMap<u32, f64> = HashMap::new();
 
-    for test_size in 1..(max_test_size + 1) {
-        let mut total_time_taken_by_divide_and_conquer: u32 = 0;
-        let mut total_time_taken_by_brute_force: u32 = 0;
+    for test_size in 1..(total_test_size + 1) {
+        let mut time_taken_by_divide_and_conquer: u32 = 0;
+        let mut time_taken_by_brute_force: u32 = 0;
 
-        for current_iteration in 1..(max_test_iterations + 1) {
+        for current_iteration in 1..(total_test_iterations + 1) {
             println!("\n> Testing iteration {current_iteration} of {test_size}0k points:\n---");
 
             let points = generate_points(test_size * 10000);
@@ -51,30 +51,30 @@ fn main() {
             finding_closest_pair_using_divide_and_conquer(&points);
 
             // calculate time for divide and conquer algo
-            let time_taken_by_divide_and_conquer = time_counter.elapsed().as_millis();
-            println!("Time taken by Divide and Conquer: {time_taken_by_divide_and_conquer} ms.");
-            total_time_taken_by_divide_and_conquer += time_taken_by_divide_and_conquer as u32;
+            let elapsed_time = time_counter.elapsed().as_millis();
+            println!("Time taken by Divide and Conquer: {elapsed_time} ms.");
+            time_taken_by_divide_and_conquer += elapsed_time as u32;
 
             // start time counter for brute force algo
             time_counter = Instant::now();
             finding_closest_pair_using_brute_force(&points);
 
             // calculate time for brute force algo
-            let time_taken_by_brute_force = time_counter.elapsed().as_millis();
-            println!("Time taken by Brute force: {time_taken_by_brute_force} ms.");
-            total_time_taken_by_brute_force += time_taken_by_brute_force as u32;
+            let elapsed_time = time_counter.elapsed().as_millis();
+            println!("Time taken by Brute force: {elapsed_time} ms.");
+            time_taken_by_brute_force += elapsed_time as u32;
         }
 
         // take the average time for divide and conquer algo
         time_map_for_divide_and_conquer.insert(
             test_size,
-            total_time_taken_by_divide_and_conquer as f64 / max_test_iterations as f64,
+            time_taken_by_divide_and_conquer as f64 / total_test_iterations as f64,
         );
 
         // take the average time for brute force algo
         time_map_for_brute_force.insert(
             test_size,
-            total_time_taken_by_brute_force as f64 / max_test_iterations as f64,
+            time_taken_by_brute_force as f64 / total_test_iterations as f64,
         );
     }
 
@@ -85,12 +85,15 @@ fn main() {
         "Test size",
         format!(
             "Divide and Conquer (Avg. RT for {} test(s)).",
-            max_test_iterations
+            total_test_iterations
         ),
-        format!("Brute force (Avg. RT for {} test(s)).", max_test_iterations),
+        format!(
+            "Brute force (Avg. RT for {} test(s)).",
+            total_test_iterations
+        ),
     ]);
 
-    for test_size in 1..(max_test_size + 1) {
+    for test_size in 1..(total_test_size + 1) {
         table.add_row(row![
             test_size * 10000,
             format!(
