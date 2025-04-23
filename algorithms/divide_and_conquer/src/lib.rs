@@ -1,6 +1,6 @@
 use std::cmp::min;
 
-use data_types::{PairOfPoints, Point, Points};
+use point_utilities::{PairOfPoints, Point, Points};
 
 /// Merges two sorted point arrays into one sorted array according to a comparison function.
 ///

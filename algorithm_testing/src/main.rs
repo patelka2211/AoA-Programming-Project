@@ -5,8 +5,8 @@ use std::{
 };
 
 use brute_force::closest_pair as finding_closest_pair_using_brute_force;
-use data_generator::generate_points;
 use divide_and_conquer::closest_pair as finding_closest_pair_using_divide_and_conquer;
+use point_utilities::generate_array_of_random_points;
 use prettytable::{row, Table};
 
 fn main() {
@@ -44,7 +44,7 @@ fn main() {
         for current_iteration in 1..(total_test_iterations + 1) {
             println!("\n> Testing iteration {current_iteration} of {test_size}0k points:\n---");
 
-            let points = generate_points(test_size * 10000);
+            let points = generate_array_of_random_points(test_size * 10000);
 
             // start time counter for divide and conquer algo
             let mut time_counter = Instant::now();

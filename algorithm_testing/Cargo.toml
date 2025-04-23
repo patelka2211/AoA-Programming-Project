@@ -5,6 +5,6 @@ edition = "2021"
 
 [dependencies]
 brute_force = { version = "0.1.0", path = "../algorithms/brute_force" }
-data_generator = { version = "0.1.0", path = "../helpers/data_generator" }
+point_utilities = { version = "0.1.0", path = "../point_utilities" }
 divide_and_conquer = { version = "0.1.0", path = "../algorithms/divide_and_conquer" }
 prettytable-rs = "0.10.0"

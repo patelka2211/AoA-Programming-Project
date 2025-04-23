@@ -1,4 +1,4 @@
-use data_types::{PairOfPoints, Points};
+use point_utilities::{PairOfPoints, Points};
 
 /// Finds the closest pair of points in a given set of points.
 ///

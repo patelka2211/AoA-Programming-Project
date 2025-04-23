@@ -4,4 +4,4 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-data_types = { version = "0.1.0", path = "../../helpers/data_types" }
+point_utilities = { version = "0.1.0", path = "../../point_utilities" }

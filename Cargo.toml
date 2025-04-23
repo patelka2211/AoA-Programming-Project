@@ -4,7 +4,6 @@ members = [
     "algorithm_testing",
     "algorithms/brute_force",
     "algorithms/divide_and_conquer",
-    "helpers/data_generator",
-    "helpers/data_types",
+    "point_utilities",
 ]
 exclude = []
