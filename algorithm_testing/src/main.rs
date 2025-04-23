@@ -81,8 +81,11 @@ fn main() {
     for test_size in 1..(max_test_size + 1) {
         table.add_row(row![
             test_size * 10000,
-            time_map_for_divide_and_conquer.get(&test_size).unwrap(),
-            time_map_for_brute_force.get(&test_size).unwrap(),
+            format!(
+                "{} ms",
+                time_map_for_divide_and_conquer.get(&test_size).unwrap()
+            ),
+            format!("{} ms", time_map_for_brute_force.get(&test_size).unwrap()),
         ]);
     }
 
